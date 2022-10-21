@@ -35,10 +35,11 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleApiClient.Con
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        //Marcador Universidad de Tarapaca
+        val universidad = LatLng(-18.490145119500152, -70.29633263195471)
+        mMap.addMarker(MarkerOptions().position(universidad).title("Universidad de Tarapaca"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(universidad))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(universidad, 18F), 3000, null)
     }
 
     override fun onConnected(p0: Bundle?) {
