@@ -1,4 +1,4 @@
-//Actualizacion de ubicacion
+//Actualizacion de ubicacion Version Final
 
 package com.example.utamaps
 
@@ -25,7 +25,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.*
 
-class MapaGeneral : AppCompatActivity(), OnMapReadyCallback{
+class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener{
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapaGeneralBinding
@@ -53,6 +53,8 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback{
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         enableLocation()
+        mMap.setOnMyLocationButtonClickListener(this)
+        mMap.setOnMyLocationClickListener(this)
 
         //Marcador Universidad de Tarapaca
         val universidad = LatLng(-18.490145119500152, -70.29633263195471)
@@ -82,39 +84,6 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback{
         if (!::mMap.isInitialized) return
         if (isLocationPermissionGranted()){
             mMap.isMyLocationEnabled = true
-
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            try {
-                fusedLocationClient.lastLocation.addOnSuccessListener {
-                    if (it != null) {
-                        imprimirUbicacion(it)
-                    } else {
-                        Log.d(LOG_TAG, "No se pudo obtener la ubicación")
-                    }
-                }
-                //////
-                val locationRequest = LocationRequest.create().apply {
-                    interval = 10000
-                    fastestInterval = 5000
-                    priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                }
-                locationCallback = object : LocationCallback() {
-                    override fun onLocationResult(locationResult: LocationResult?) {
-                        locationResult ?: return
-                        Log.d(LOG_TAG, "Se recibió una actualización")
-                        for (location in locationResult.locations) {
-                            imprimirUbicacion(location)
-                        }
-                    }
-                }
-                fusedLocationClient.requestLocationUpdates(
-                    locationRequest,
-                    locationCallback,
-                    Looper.getMainLooper()
-                )
-            } catch (e: SecurityException) {
-                Log.d(LOG_TAG, "Tal vez no solicitaste permiso antes")
-            }
 
         }
         else{
@@ -153,6 +122,50 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback{
     fun imprimirUbicacion(ubicacion: Location) {
 
         Log.d(LOG_TAG, "Latitud es ${ubicacion.latitude} y la longitud es ${ubicacion.longitude}")
+        Toast.makeText(this,"Tu ubicacion actual es Latitud es ${ubicacion.latitude} y la longitud es ${ubicacion.longitude}",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(this, "Boton pulsado", Toast.LENGTH_SHORT).show()
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        try {
+            fusedLocationClient.lastLocation.addOnSuccessListener {
+                if (it != null) {
+                    imprimirUbicacion(it)
+                } else {
+                    Log.d(LOG_TAG, "No se pudo obtener la ubicación")
+                }
+            }
+            //////
+            val locationRequest = LocationRequest.create().apply {
+                interval = 10000
+                fastestInterval = 5000
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult?) {
+                    locationResult ?: return
+                    Log.d(LOG_TAG, "Se recibió una actualización")
+                    for (location in locationResult.locations) {
+                        imprimirUbicacion(location)
+                    }
+                }
+            }
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        } catch (e: SecurityException) {
+            Log.d(LOG_TAG, "Tal vez no solicitaste permiso antes")
+        }
+
+        return false
+    }
+
+    override fun onMyLocationClick(p0: Location) {
+        Toast.makeText(this, "Estas en ${p0.latitude}, ${p0.longitude}", Toast.LENGTH_LONG).show()
     }
 
 }
