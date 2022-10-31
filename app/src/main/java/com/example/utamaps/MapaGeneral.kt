@@ -5,25 +5,24 @@ package com.example.utamaps
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationListener
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
+import com.example.utamaps.databinding.ActivityMapaGeneralBinding
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.example.utamaps.databinding.ActivityMapaGeneralBinding
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
+
 
 class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener{
 
@@ -53,14 +52,57 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         enableLocation()
+        createMarker()
+        //createPolyLines()
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
+
 
         //Marcador Universidad de Tarapaca
         val universidad = LatLng(-18.490145119500152, -70.29633263195471)
         mMap.addMarker(MarkerOptions().position(universidad).title("Universidad de Tarapaca"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(universidad))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(universidad, 18F), 3000, null)
+
+    }
+
+     fun createMarker(){
+        //Aulario C
+        var aularioC = LatLng(-18.49119864947299, -70.29738137069214)
+        var markerB = mMap.addMarker(MarkerOptions().position(aularioC).title("Aulario C"))
+
+        //Departamento de matematicas
+        val deptoMatematicas = LatLng(-18.491765900973082, -70.29676982703793)
+        val markerC = mMap.addMarker(MarkerOptions().position(deptoMatematicas).title("Departamento de matematicas"))
+
+        //Registraduria
+        val registraduria = LatLng(-18.490354171365787, -70.29657426208078)
+        val markerD = mMap.addMarker(MarkerOptions().position(registraduria).title("Registraduria"))
+
+        //Biblioteca Central
+        val  bibliotecaCentral= LatLng(-18.490326190161305, -70.29592248528115)
+        val markerE = mMap.addMarker(MarkerOptions().position(bibliotecaCentral).title("Biblioteca Central"))
+
+        //Facultad de Ciencias Sociales y Jurídicas
+        val facSociales = LatLng(-18.488426001426102, -70.29702487318757)
+        val markerF = mMap.addMarker(MarkerOptions().position(facSociales).title("Facultad de Ciencias Sociales y Jurídicas"))
+
+        //Aulario D
+        val aularioD = LatLng(-18.488554848758422, -70.2967299870205)
+        val markerG = mMap.addMarker(MarkerOptions().position(aularioD).title("Aulario D"))
+
+        //Departamento de Informática
+        val deptoInformatica= LatLng(-18.48916789676081, -70.29522526775676)
+        val markerH = mMap.addMarker(MarkerOptions().position(deptoInformatica).title("Departamento de Informática"))
+
+
+        val polylineOptions = PolylineOptions()
+            .add(aularioC, registraduria)
+            .width(5f)
+            .color(ContextCompat.getColor(this, R.color.black))
+
+        val polyline = mMap.addPolyline(polylineOptions)
+
     }
 
     //Funcion para saber si el permiso esta aceptado
