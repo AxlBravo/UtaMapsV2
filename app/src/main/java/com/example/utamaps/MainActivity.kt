@@ -14,14 +14,10 @@ class MainActivity : AppCompatActivity() {
 
         //Boton
         val mapaUta = findViewById(R.id.MapaUniversidad) as Button
-        val botonrelleno = findViewById(R.id.BotonRelleno) as Button
+
         mapaUta.setOnClickListener(View.OnClickListener() {
             val Intent = Intent(this, MapaGeneral::class.java)
             startActivity(Intent)
-        })
-        botonrelleno.setOnClickListener(View.OnClickListener {
-            val principal = Intent(this,MenuPrincipal::class.java)
-            startActivity(principal)
         })
     }
 }
