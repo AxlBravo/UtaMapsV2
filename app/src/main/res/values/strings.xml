@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">UtaMaps</string>
     <string name="title_activity_mapa_general">MapaGeneral</string>
+    <string name="title_activity_menu_ubicaciones">MenuUbicaciones</string>
+    <string name="tab_text_1">Departamentos</string>
+    <string name="tab_text_2">Facultades</string>
+    <string name="tab_text_3">Aularios</string>
+    <string name="tab_text_4">Administrativos</string>
 </resources>
