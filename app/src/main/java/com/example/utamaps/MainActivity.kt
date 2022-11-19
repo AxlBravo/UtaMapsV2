@@ -12,19 +12,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Boton mapa Uta
+        //Boton
         val mapaUta = findViewById(R.id.MapaUniversidad) as Button
 
         mapaUta.setOnClickListener(View.OnClickListener() {
             val Intent = Intent(this, MapaGeneral::class.java)
-            startActivity(Intent)
-        })
-
-        //Boton menu general
-        val ubicaciones = findViewById(R.id.PtsInteres) as Button
-
-        ubicaciones.setOnClickListener(View.OnClickListener(){
-            val Intent = Intent(this, MenuUbicaciones::class.java)
             startActivity(Intent)
         })
     }
