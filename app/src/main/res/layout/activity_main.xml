@@ -21,4 +21,12 @@
         android:text="Boton de relleno"
         android:id="@+id/BotonRelleno"
         />
+
+    <Button
+        android:id="@+id/btnCalculateRoute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Calcular Ruta"/>
+
 </LinearLayout>

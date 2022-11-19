@@ -41,8 +41,6 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
 
     private var start:String = ""
     private var end:String = ""
-    var poly:Polyline? = null
-
 
     private val LOG_TAG = "EnviarUbicacion"
 
@@ -74,9 +72,6 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
         btnCalculate.setOnClickListener{
             start = ""
             end = ""
-            poly?.remove()
-            poly = null
-            Toast.makeText(this, "Selecciona un punto de origen y de llegada", Toast.LENGTH_SHORT).show()
             if (::mMap.isInitialized){
                 mMap.setOnMapClickListener {
                     if (start.isEmpty()){
@@ -102,21 +97,11 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
          CoroutineScope(Dispatchers.IO).launch {
              val call = getRetrofit().create(ApiService::class.java).getRoute("5b3ce3597851110001cf6248d522e41edcd94e51852cd0fddfe1970a", start, end)
              if (call.isSuccessful){
-                drawRoute(call.body())
+                Log.i("aris", "OK")
              }else{
                  Log.i("aris", "OK")
              }
          }
-    }
-
-    private fun drawRoute(routeResponse: RouteResponse?) {
-        val polylineOptions = PolylineOptions()
-        routeResponse?.features?.first()?.geometry?.coordinates?.forEach{
-            polylineOptions.add(LatLng(it[1], it[0]))
-        }
-        runOnUiThread{
-            poly = mMap.addPolyline(polylineOptions)
-        }
     }
 
     private fun getRetrofit():Retrofit{
@@ -156,12 +141,12 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
         val markerH = mMap.addMarker(MarkerOptions().position(deptoInformatica).title("Departamento de Informática"))
 
 
-        /*
+        val polylineOptions = PolylineOptions()
             .add(aularioC, registraduria)
             .width(5f)
             .color(ContextCompat.getColor(this, R.color.black))
 
-        val polyline = mMap.addPolyline(polylineOptions)*/
+        val polyline = mMap.addPolyline(polylineOptions)
 
     }
 
@@ -267,7 +252,7 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
     }
 
     override fun onMyLocationClick(p0: Location) {
-        //Toast.makeText(this, "Estas en ${p0.latitude}, ${p0.longitude}", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Estas en ${p0.latitude}, ${p0.longitude}", Toast.LENGTH_LONG).show()
     }
 
 }
