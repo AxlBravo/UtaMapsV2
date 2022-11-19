@@ -8,7 +8,6 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -23,12 +22,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 
 class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener{
@@ -37,10 +30,6 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
     private lateinit var binding: ActivityMapaGeneralBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
-    private lateinit var btnCalculate:Button
-
-    private var start:String = ""
-    private var end:String = ""
 
     private val LOG_TAG = "EnviarUbicacion"
 
@@ -67,22 +56,6 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
         //createPolyLines()
         mMap.setOnMyLocationButtonClickListener(this)
         mMap.setOnMyLocationClickListener(this)
-
-        btnCalculate = findViewById(R.id.btnCalculateRoute)
-        btnCalculate.setOnClickListener{
-            start = ""
-            end = ""
-            if (::mMap.isInitialized){
-                mMap.setOnMapClickListener {
-                    if (start.isEmpty()){
-                        start = "${it.longitude}, ${it.latitude}"
-                    }else if(end.isEmpty()){
-                        end = "${it.longitude}, ${it.latitude}"
-                        createRoute()
-                    }
-                }
-            }
-        }
 
 
         //Marcador Universidad de Tarapaca
