@@ -99,7 +99,7 @@ class MapaGeneral : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocat
              if (call.isSuccessful){
                 Log.i("aris", "OK")
              }else{
-                 Log.i("aris", "OK")
+                 Log.i("aris", "KO")
              }
          }
     }
